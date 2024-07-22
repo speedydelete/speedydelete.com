@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+
+* {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#div-info {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 60%;
+    padding: 10px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    border: 1px solid black;
+}
+
+#div-base {
+    position: absolute;
+    padding: 10px;
+    top: 0;
+    bottom: calc(100% - 119px);
+    left: 40%;
+    right: 40%;
+    border: 1px solid black;
+    border-left: none;
+}
+#div-base input {
+    width: calc(100% - 2ch - 5px);
+    margin-left: 5px;
+}
+
+        </style>
+    </head>
+    <body>
+        <div id="div-info">
+            <button id="refresh">Refresh</button><br>
+            <div id="info"></div>
+        </div>
+        <div id="div-base">
+            <label>0d</label><input type="text" id="dec" value="0"><br>
+            <label>0b</label><input type="text" id="bin" value="0"><br>
+            <label>0x</label><input type="text" id="hex" value="0"><br>
+            <label>0o</label><input type="text" id="oct" value="0"><br>
+        </div>
+        <script>
+
+info = {
+    time: null,
+    utctime: null,
+    timezone: null,
+    offset: null,
+    isLocales: false,
+    locales: null,
+    lat: null,
+    lon: null,
+    latlonerr: null,
+    alt: null,
+    alterr: null,
+    heading: null,
+    speed: null,
+    loctime: null,
+    charge: null,
+    isCharging: null,
+    battTime: null,
+    isOnline: null,
+    bandwidth: null,
+    connType: null,
+    ram: null,
+    cores: null,
+    userAgent: null,
+    mobile: null,
+    browsers: null,
+}
+refreshed = null;
+
+function htmlEscape(x) {
+    return x.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll(">", "&gt;").replaceAll("'", "&#039;").replaceAll(" ", "&nbsp;").replaceAll("\n", "<br>")
+}
+
+function refresh() {
+    refreshed = true;
+    info.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    info.offset = -(new Date(Date.now()).getTimezoneOffset())/60;
+    if ("language" in navigator) info.locales = [navigator.language];
+    if ("languages" in navigator) {
+        if (!("language" in navigator)) {
+            info.locales = navigator.languages;
+        } else {
+            info.locales = info.locales.concat(navigator.languages.slice(1));
+        }
+    }
+    info.isLocales = !(info.locales === null || info.locales.length === undefined || info.locales.length == 0);
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+            info.lat = pos.coords.latitude;
+            info.lon = pos.coords.longitude;
+            info.latlonerr = pos.coords.accuracy;
+            info.alt = pos.coords.altitude;
+            info.alterr = pos.coords.altitudeAccuracy;
+            info.heading = pos.coords.heading;
+            info.speed = pos.coords.speed;
+            info.loctime = pos.timestamp / 1000;
+        });
+    }
+    if ("getBattery" in navigator) {
+        navigator.getBattery().then((batt) => {
+            info.charge = batt.level;
+            info.isCharging = batt.charging;
+            info.battTime = batt.charging ? batt.chargingTime : batt.dischargingTime;
+        });
+    }
+    if ("onLine" in navigator) info.isOnline = navigator.onLine;
+    if ("connection" in navigator) {
+        info.bandwidth = navigator.connection.downlink;
+        info.connType = navigator.connection.type;
+    }
+    if ("deviceMemory" in navigator) info.ram = navigator.deviceMemory;
+    if ("hardwareConcurrency" in navigator) info.cores = navigator.hardwareConcurrency;
+    if ("userAgent" in navigator) info.userAgent = navigator.userAgent;
+    if ("userAgentData" in navigator) {
+        info.isMobile = navigator.userAgentData.mobile;
+        info.platform = navigator.userAgentData.platform;
+        info.browsers = navigator.userAgentData.brands;
+    }
+}
+
+function getInfoStr() {
+    let lat = info.lat; let lon = info.lon;
+    lat = (lat > 0) ? (lat + "°N") : ((lat == 0) ? "0°" : Math.abs(lat) + "°S");
+    lon = (lon > 0) ? (lon + "°E") : ((lon == 0) ? "0°" : Math.abs(lon) + "°W");
+    let utc = null; let locales = null;
+    if (info.isLocales) {
+        utc = new Date(info.time*1000).toLocaleString(info.locales[0], {timeZone: "utc"});
+        locales = info.locales[0] + " (" + (info.locales.length > 1 ? info.locales.slice(1).join(", ") : "no others") + ")";
+    }
+    let browsers = [];
+    if (info.browsers != null) {
+        for (const x of info.browsers) {
+            if (x.brand != "Not-A.Brand") {
+                browsers.push(x.brand + " " + x.version);
+            }
+        }
+        browsers = browsers.join(", ");
+    }
+    return `
+Time: TIMESPAN${new Date(info.time*1000).toLocaleString()}ENDSPAN
+UTC time: UTCSPAN${utc}ENDSPAN
+Time zone: ${info.timezone} (UTC${info.offset.toFixed(2)})
+Locales: ${locales}
+
+Location: ${lat} ${lon} (± ${info.latlonerr} m)
+Altitude (m): ${info.alt}
+Heading: ${info.heading}
+Speed: ${info.speed}
+Location retrieval time: ${new Date(info.loctime*1000).toLocaleString()}
+
+Battery charge: ${(info.charge * 100).toFixed(2)}%
+Battery is ${info.isCharging ? "" : "not "}charging
+Battery will be ${info.isCharging ? "full" : "empty"} at approx. ${new Date((info.time + info.battTime)*1000).toLocaleTimeString()}
+
+Online: ${info.isOnline}
+Bandwidth: ${info.bandwidth} megabits/second
+Network type: ${info.connType}
+
+RAM: ${info.ram} gigabytes
+Cores: ${info.cores}
+
+User agent: ${info.userAgent}
+Mobile: ${info.isMobile}
+Platform: ${info.platform}
+Browser brands: ${browsers}`;
+}
+
+function refreshDisplay() {
+    info.time = Date.now()/1000;
+    if (refreshed === true) {
+        let s = htmlEscape(getInfoStr());
+        s = s.replaceAll("TIMESPAN", "<" + "span id='time'>");
+        s = s.replaceAll("UTCSPAN", "<" + "span id='utc'>");
+        s = s.replaceAll("ENDSPAN", "<" + "/span>");
+        document.getElementById("info").innerHTML = s;
+    } else if (refreshed === false) {
+        document.getElementById("time").innerText = new Date(info.time*1000).toLocaleString();
+        if (info.isLocales) {
+            document.getElementById("utc").innerText = new Date(info.time*1000).toLocaleString(navigator.language, {timeZone: "utc"});
+        } else {
+            document.getElementById("utc").innerText = "null";
+        }
+    }
+    refreshed = false;
+}
+
+let eltDec;
+let eltBin;
+let eltHex;
+let eltOct;
+let eltUChar;
+
+function recalc(value) {
+    try {
+        value = parseFloat(value);
+    } catch (err) {
+        //alert(err.stack.toString());
+        return;
+    }
+    eltDec.value = value;
+    eltBin.value = value.toString(2);
+    eltOct.value = value.toString(8);
+    eltHex.value = value.toString(16);
+    value = Math.round(value)
+    if (value >= 0 && value <= 0x10FFFF) {
+        eltUChar.value = String.fromCharCode(Math.round(value));
+    }
+}
+
+window.onload = function() {
+    refresh();
+    setInterval(refreshDisplay, 100);
+    document.getElementById("refresh").onclick = refresh;
+    eltDec = document.getElementById("dec");
+    eltBin = document.getElementById("bin");
+    eltOct = document.getElementById("oct");
+    eltHex = document.getElementById("hex");
+    eltUChar = document.getElementById("u-char");
+    eltDec.onchange = () => {recalc(eltDec.value)};
+    eltBin.onchange = () => {recalc("0b" + eltBin.value)};
+    eltOct.onchange = () => {recalc("0o" + eltOct.value)};
+    eltHex.onchange = () => {recalc("0x" + eltHex.value)};
+}
+
+        </script>
+    </body>
+</html>
