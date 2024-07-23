@@ -96,6 +96,7 @@ async function sendReq(method, data) {
         data = data.join("\x1f");
     }
     data = encodeURIComponent(data)
+    console.log(data);
     let uri = SERVER + data;
     const resp = await fetch(uri, {
         method: method,
