@@ -75,9 +75,8 @@ main {
         <script>
 
 
-// const SERVER = "http://localhost:15618/"
-// const SERVER = "https://corsproxy.io/?https://server.speedydelete.com/"
-const SERVER = "https://server.speedydelete.com/";
+const SERVER = "http://localhost/"
+// const SERVER = "https://server.speedydelete.com/";
 
 
 let beatsElt = document.getElementById("beats");
@@ -92,16 +91,9 @@ let ttbElt = document.getElementById("ttb");
 let outQueryElt = document.getElementById("out-query");
 
 
-async function sendReq(method, data) {
-    if (Array.isArray(data)) {
-        data = data.join("\x1f");
-    }
-    data = encodeURIComponent(data)
-    console.log(data);
-    let uri = SERVER + data;
-    const resp = await fetch(uri, {
-        method: method,
-    });
+async function sendReq(path, args) {
+    const uri = SERVER + path;
+    const resp = await fetch(uri, args);
     statusDiv.style.color = (resp.status < 400) ? "green" : "red";
     timeElt.textContent = (new Date()).toLocaleTimeString();
     statusCodeElt.textContent = resp.status;
@@ -114,9 +106,12 @@ async function sendReq(method, data) {
 
 
 async function addCombination() {
-    const data = [beatsElt.value, beatenElt.value];
-    await sendReq("post", data);
-    alert("added");
+    const data = `${beatsElt.value}\n${beatenElt.value}`;
+    await sendReq("/add/", {
+        method: "post",
+        body: data,
+    });
+    alert("Data added");
 }
 
 async function getBeats() {
