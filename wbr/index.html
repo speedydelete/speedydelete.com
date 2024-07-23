@@ -112,9 +112,10 @@ async function sendReq(method, data) {
 }
 
 
-function addCombination() {
+async function addCombination() {
     const data = [beatsElt.value, beatenElt.value];
-    sendReq("post", data);
+    await sendReq("post", data);
+    alert("added");
 }
 
 async function getBeats() {
