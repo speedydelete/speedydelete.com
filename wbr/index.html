@@ -95,8 +95,8 @@ async function sendReq(method, data) {
     if (Array.isArray(data)) {
         data = data.join("\x1f");
     }
+    data = encodeURIComponent(data)
     let uri = SERVER + data;
-    uri = encodeURI(uri);
     const resp = await fetch(uri, {
         method: method,
     });
