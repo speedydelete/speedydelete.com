@@ -75,8 +75,8 @@ main {
         <script>
 
 
-// const SERVER = "http://localhost/"
-const SERVER = "https://server.speedydelete.com/";
+// const SERVER = "http://localhost"
+const SERVER = "https://server.speedydelete.com";
 
 
 let beatsElt = document.getElementById("beats");
@@ -116,7 +116,7 @@ async function addCombination() {
 
 async function getBeats() {
     data = queryElt.value;
-    text = await sendReq("get", data);
+    text = await sendReq("/get/" + encodeURIComponent(data));
     ttbElt.style.display = "block";
     outQueryElt.innerText = data;
     resultsElt.innerHTML = "";
