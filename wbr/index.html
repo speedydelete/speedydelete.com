@@ -104,7 +104,7 @@ async function sendReq(method, data) {
     timeElt.textContent = (new Date()).toLocaleTimeString();
     statusCodeElt.textContent = resp.status;
     reasonElt.textContent = resp.statusText;
-    if (resp.status != 204) {
+    if (resp.status != 204 && resp.status < 400) {
         let text = await resp.text();
         return text.split('\n');
     }
