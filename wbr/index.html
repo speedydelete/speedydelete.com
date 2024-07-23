@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>What Beats Rock Database</title>
+        <style>
+
+* {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    box-sizing: border-box;
+}
+
+input {
+    overflow-x: scroll;
+    border: 1px solid lightgrey;
+    padding: 10px;
+}
+
+button {
+    padding: 5px;
+    background-color: lightgrey;
+    border-radius: 5px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    padding: 10%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+main {
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#get {
+    margin-right: 15%;
+}
+
+#ttb {
+    display: none;
+}
+
+        </style>
+    </head>
+    <body>
+        <main>
+            <div id="add">
+                Add combination:<br><br>
+                <input id="beats" type="text" width="40" placeholder="paper"><br><br>
+                beats<br><br>
+                <input id="beaten" type="text" width="40" placeholder="rock"><br><br>
+                <button id="add-send" onclick="addCombination();">Send</button>
+            </div>
+            <div id="status">
+                <span id="time"></span>
+                <span id="status-code"></span>
+                <span id="reason"></span>
+            </div>
+            <div id="get">
+                What beats...<br><br>
+                <input id="query" type="text" width="40" placeholder="rock"><br><br>
+                <button id="get-send" onclick="getBeats();">Query</button>
+                <br><br>
+                <div id="ttb">Things that beat <span id="out-query"></span>:</div>
+                <ul id="results"></ul>
+            </div>
+        </main>
+        <script>
+
+
+// const SERVER = "http://localhost:15618/"
+const SERVER = "https://server.speedydelete.com/"
+
+
+let beatsElt = document.getElementById("beats");
+let beatenElt = document.getElementById("beaten");
+let statusDiv = document.getElementById("status");
+let timeElt = document.getElementById("time");
+let statusCodeElt = document.getElementById("status-code");
+let reasonElt = document.getElementById("reason");
+let resultsElt = document.getElementById("results");
+let queryElt = document.getElementById("query");
+let ttbElt = document.getElementById("ttb");
+let outQueryElt = document.getElementById("out-query");
+
+
+async function sendReq(method, data) {
+    if (Array.isArray(data)) {
+        data = data.join("\x1f");
+    }
+    let uri = SERVER + data;
+    uri = encodeURI(uri);
+    const resp = await fetch(uri, {
+        method: method,
+    });
+    statusDiv.style.color = (resp.status < 400) ? "green" : "red";
+    timeElt.textContent = (new Date()).toLocaleTimeString();
+    statusCodeElt.textContent = resp.status;
+    reasonElt.textContent = resp.statusText;
+    if (resp.status != 204) {
+        let text = await resp.text();
+        return text.split('\n');
+    }
+}
+
+
+function addCombination() {
+    const data = [beatsElt.value, beatenElt.value];
+    sendReq("post", data);
+}
+
+async function getBeats() {
+    data = queryElt.value;
+    text = await sendReq("get", data);
+    ttbElt.style.display = "block";
+    outQueryElt.innerText = data;
+    resultsElt.innerHTML = "";
+    for (const thing of text) {
+        let elt = document.createElement("li");
+        elt.innerText = thing;
+        resultsElt.appendChild(elt);
+    }
+}
+
+        </script>
+    </body>
+</html>
