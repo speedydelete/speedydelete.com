@@ -111,6 +111,7 @@ function validate(thing) {
     }
     for (const char of thing) {
         if (INVALID.includes(char)) {
+            alert(char);
             return false;
         }
     }
