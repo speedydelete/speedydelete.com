@@ -90,7 +90,10 @@ main {
 // const SERVER = "http://localhost:80"
 const SERVER = "https://server.speedydelete.com";
 
-const INVALID = '0123456789"';
+let INVALID = '0123456789"';
+for (const i of [...Array(32).keys()]) {
+    INVALID += String.fromCharCode(i);
+}
 
 let beatsElt = document.getElementById("beats");
 let beatenElt = document.getElementById("beaten");
