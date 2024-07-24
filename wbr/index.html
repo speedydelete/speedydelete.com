@@ -106,8 +106,9 @@ let outQueryElt = document.getElementById("out-query");
 
 function validate(thing) {
     thing = thing.toLowerCase().trim();
-    if len(thing) > 280:
+    if (len(thing) > 280) {
         return false;
+    }
     for (const char of thing) {
         if (INVALID.includes(char)) {
             return false;
