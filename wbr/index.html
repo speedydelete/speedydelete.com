@@ -15,6 +15,7 @@ input {
     overflow-x: scroll;
     border: 1px solid lightgrey;
     padding: 10px;
+    width: 40ch;
 }
 
 button {
@@ -26,7 +27,7 @@ button {
 body {
     display: flex;
     flex-direction: column;
-    padding: 10%;
+    padding: 5%;
     height: 100vh;
     overflow: hidden;
     position: absolute;
@@ -41,11 +42,32 @@ main {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
+}
+
+#add {
+    width: 50%;
+    padding-right: 20px;
+}
+
+select, option {
+    padding: 5px;
+    appearance: none;
+}
+
+#chain-tab {
+    display: none;
+}
+
+textarea {
+    width: 40ch;
+    height: 20ch;
+    overflow: scroll;
+    word-wrap: break-word;
 }
 
 #get {
-    margin-right: 15%;
+    width: 50%;
 }
 
 #ttb {
@@ -60,10 +82,46 @@ main {
 }
 
 ul {
-    overflow: scroll;
-    max-width: 500px;
+    overflow-y: scroll;
+    max-width: 600px;
     height: 300px;
     margin-bottom: 20px;
+}
+
+@media (width < 1200px) {
+    ul {
+        max-width: 500px;
+    }
+    textarea, input {
+        width: 30ch;
+    }
+}
+
+@media (width < 1000px) {
+    ul {
+        max-width: 400px;
+    }
+    textarea, input {
+        width: 25ch;
+    }
+}
+
+@media (width < 800px) {
+    ul {
+        max-width: 300px;
+    }
+    textarea, input {
+        width: 20ch;
+    }
+}
+
+@media (width < 600px) {
+    ul {
+        max-width: 200px;
+    }
+    textarea, input {
+        width: 15ch;
+    }
 }
 
         </style>
@@ -72,9 +130,21 @@ ul {
         <main>
             <div id="add">
                 Add combination:<br><br>
-                <input id="beats" type="text" width="40" placeholder="paper"><br><br>
-                beats<br><br>
-                <input id="beaten" type="text" width="40" placeholder="rock"><br><br>
+                Input method: 
+                <select class="font-fix" id="mode" onchange="switchTab();">
+                    <option value="individual">Individual</option>
+                    <option value="chain">Chain</option>
+                </select><br><br>
+                <div id="individual-tab">
+                    <input id="beats" type="text" width="40" placeholder="paper"><br><br>
+                    beats<br><br>
+                    <input id="beaten" type="text" width="40" placeholder="rock">
+                </div>
+                <div id="chain-tab">
+                    Paste in chain:<br><br>
+                    <textarea id="chain" placeholder="nothing 😵 paper 🤜 rock"></textarea>
+                </div>
+                <br><br>
                 <button id="add-send" onclick="addCombination();">Send</button>
             </div>
             <div id="get">
@@ -99,16 +169,39 @@ const SERVER = "https://server.speedydelete.com";
 
 const INVALID = `\0\t\n\v\f\r0123456789"\xa0`;
 
+mode = "individual";
+
+let modeElt = document.getElementById("mode");
+let individualDiv = document.getElementById("individual-tab");
+let chainDiv = document.getElementById("chain-tab");
+
 let beatsElt = document.getElementById("beats");
 let beatenElt = document.getElementById("beaten");
+
+let chainElt = document.getElementById("chain");
+
 let statusDiv = document.getElementById("status");
 let timeElt = document.getElementById("time");
 let statusCodeElt = document.getElementById("status-code");
 let reasonElt = document.getElementById("reason");
-let resultsElt = document.getElementById("results");
+
+let getDiv = document.getElementById("get");
 let queryElt = document.getElementById("query");
 let ttbElt = document.getElementById("ttb");
 let outQueryElt = document.getElementById("out-query");
+let resultsElt = document.getElementById("results");
+
+
+function switchTab() {
+    mode = modeElt.value;
+    individualDiv.style.display = "none";
+    chainDiv.style.display = "none";
+    if (mode == "individual") {
+        individualDiv.style.display = "block";
+    } else if (mode == "chain") {
+        chainDiv.style.display = "block";
+    }
+}
 
 
 function validate(thing) {
@@ -137,17 +230,26 @@ async function sendReq(path, data) {
     }
 }
 
-
 async function addCombination() {
-    let data = beatsElt.value + '\n' + beatenElt.value;
-    data = validate(data);
-    if (!data) {
+    let data;
+    if (mode == "individual") {
+        data = [beatsElt.value, beatenElt.value];
+    } else if (mode == "chain") {
+        data = chainElt.value;
+        if (data.includes("😵")) {
+            data = data.split("😵")[1];
+        }
+        data = data.split("🤜");
+    }
+    let validated = [];
+    data.forEach((x) => validated.push(validate(x)));
+    if (validated.some((x) => !x)) {
         alert('Invalid input');
         return;
     }
     await sendReq("/add/", {
         method: "post",
-        body: data,
+        body: validated.join("\n"),
     });
     alert("Data added");
 }
