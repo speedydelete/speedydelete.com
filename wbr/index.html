@@ -55,7 +55,7 @@ select, option {
     appearance: none;
 }
 
-#chain-tab {
+#chain-tab, #trophy-tab {
     display: none;
 }
 
@@ -134,6 +134,7 @@ ul {
                 <select class="font-fix" id="mode" onchange="switchTab();">
                     <option value="individual">Individual</option>
                     <option value="chain">Chain</option>
+                    <option value="trophy">Trophy list</option>
                 </select><br><br>
                 <div id="individual-tab">
                     <input id="beats" type="text" width="40" placeholder="paper"><br><br>
@@ -143,6 +144,10 @@ ul {
                 <div id="chain-tab">
                     Paste in chain:<br><br>
                     <textarea id="chain" placeholder="nothing 😵 paper 🤜 rock"></textarea>
+                </div>
+                <div id="trophy-tab">
+                    Paste in your trophy list:<br><br>
+                    <textarea id="trophy" placeholder="nothing 😵 paper 🤜 rock"></textarea>
                 </div>
                 <br><br>
                 <button id="add-send" onclick="addCombination();">Send</button>
@@ -174,11 +179,14 @@ mode = "individual";
 let modeElt = document.getElementById("mode");
 let individualDiv = document.getElementById("individual-tab");
 let chainDiv = document.getElementById("chain-tab");
+let trophyDiv = document.getElementById("trophy-tab");
 
 let beatsElt = document.getElementById("beats");
 let beatenElt = document.getElementById("beaten");
 
 let chainElt = document.getElementById("chain");
+
+let trophyElt = document.getElementById("trophy");
 
 let statusDiv = document.getElementById("status");
 let timeElt = document.getElementById("time");
@@ -196,10 +204,13 @@ function switchTab() {
     mode = modeElt.value;
     individualDiv.style.display = "none";
     chainDiv.style.display = "none";
+    trophyDiv.style.display = "none";
     if (mode == "individual") {
         individualDiv.style.display = "block";
     } else if (mode == "chain") {
         chainDiv.style.display = "block";
+    } else if (mode == "trophy") {
+        trophyDiv.style.display = "block";
     }
 }
 
@@ -240,6 +251,10 @@ async function addCombination() {
             data = data.split("😵")[1];
         }
         data = data.split("🤜");
+    } else if (mode == "trophy") {
+        data = trophyElt.value;
+        alert("Trophy list adding is not implemented yet");
+        return;
     }
     let validated = [];
     data.forEach((x) => validated.push(validate(x)));
