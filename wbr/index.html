@@ -347,12 +347,17 @@ async function addCombination() {
         let trophies = [];
         let withCount = 0;
         for (let trophy of data) {
+            if (trophy.includes("🏆") {
+                continue;
+            }
             if (trophy.length < 1) {
                 continue;
             }
             trophy = validate(trophy, emoji=true).split(" with ");
-            if (trophy.length != 2) {
+            if (trophy.length > 2) {
                 withCount += 1;
+                continue;
+            } else if (trophy.length == 1) {
                 continue;
             }
             trophy = [validate(trophy[1]), validate(trophy[0])];
