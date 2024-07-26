@@ -370,7 +370,6 @@ async function addCombination() {
         if (withCount > 0) {
             alert(`sorry, ${withCount} items with \" with \" in them were skipped`);
         }
-        console.log(trophies);
         await sendReq("/add/", {
             method: "post",
             body: trophies.join("\n\n"),
