@@ -347,13 +347,18 @@ async function addCombination() {
         let trophies = [];
         let withCount = 0;
         for (let trophy of data) {
+            let prev_trophy = trophy;
             if (trophy.includes("🏆")) {
                 continue;
             }
             if (trophy.length < 1) {
                 continue;
             }
-            trophy = validate(trophy, emoji=true).split(" with ");
+            trophy = validate(trophy, emoji=true)
+            if (!trophy) {
+                alert("invalid input: \"" + prev_trophy + "\"");
+            }
+            trophy = trophy.split(" with ");
             if (trophy.length > 2) {
                 withCount += 1;
                 continue;
