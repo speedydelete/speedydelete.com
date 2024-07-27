@@ -371,6 +371,9 @@ async function addCombination() {
             while (trophy.includes("  ")) {
                 trophy = trophy.replaceAll("  ", " ");
             }
+            if ("\u200d" in trophy) {
+                alert("please remove zero width joiners (U+200D) in \"" + trophy + "\"")
+            }
             trophy = trophy.split(" ");
             if (trophy.filter(x => x == "with").length > 1) {
                 withCount += 1;
