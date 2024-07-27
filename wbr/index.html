@@ -409,7 +409,7 @@ async function addCombination() {
     }
     if ("individualchain".includes(mode)) {
         let validated = [];
-        for (const thing in data) {
+        for (const thing of data) {
             const valid = validate(thing);
             if (!valid[0]) {
                 alert(valid[1]);
