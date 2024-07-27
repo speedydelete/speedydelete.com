@@ -314,7 +314,7 @@ function validate(thing) {
         return [false, "no blank inputs"];
     }
     for (const char of thing) {
-        let code = char.charCodeAt(0)
+        let code = char.charCodeAt(0);
         if (code < 32 || (code >= 128 && code < 144)) {
             return [false, "control characters, nice try"];
         } else if (EMOJIS.includes(char)) {
@@ -322,7 +322,6 @@ function validate(thing) {
         } else if ("0123456789".includes(char)) {
             return [false, "i'm bad at numbers"];
         } else if (char == "\"") {
-            alert("pls no quotes lol");
             return [false, "pls no quotes lol"];
         }
     }
