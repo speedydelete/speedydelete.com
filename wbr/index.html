@@ -168,8 +168,7 @@ ul {
         </main>
         <script>
 
-const EMOJI = [
-    "😀", "😁", "😂", "🤣", "😃", "😄", "😅", "😆", "😉", "😊", "😋", "😎", "😍", "😘", "😗", "😙", "😚", "☺", "🙂", "🤗", "🤔", 
+const EMOJIS = ["😀", "😁", "😂", "🤣", "😃", "😄", "😅", "😆", "😉", "😊", "😋", "😎", "😍", "😘", "😗", "😙", "😚", "☺", "🙂", "🤗", "🤔", 
     "😐", "😑", "😶", "🙄", "😏", "😣", "😥", "😮", "🤐", "😯", "😪", "😫", "😴", "😌", "🤓", "😛", "😜", "😝", "🤤", "😒", "😓", 
     "😔", "😕", "🙃", "🤑", "😲", "☹", "🙁", "😖", "😞", "😟", "😤", "😢", "😭", "😦", "😧", "😨", "😩", "😬", "😰", "😱", "😳", 
     "😵", "😡", "😠", "😇", "🤠", "🤡", "🤥", "😷", "🤒", "🤕", "🤢", "🤧", "😈", "👿", "👹", "👺", "💀", "☠", "👻", "👽", "👾", 
@@ -188,8 +187,7 @@ const EMOJI = [
     "🚣", "🚣🏻", "🚣🏼", "🚣🏽", "🚣🏾", "🚣🏿", "🏊", "🏊🏻", "🏊🏼", "🏊🏽", "🏊🏾", "🏊🏿", "⛹", "⛹🏻", "⛹🏼", "⛹🏽", "⛹🏾", "⛹🏿", "🏋", "🏋🏻", "🏋🏼", 
     "🏋🏽", "🏋🏾", "🏋🏿", "🚴", "🚴🏻", "🚴🏼", "🚴🏽", "🚴🏾", "🚴🏿", "🚵", "🚵🏻", "🚵🏼", "🚵🏽", "🚵🏾", "🚵🏿", "🏎", "🏍", "🤸", "🤸🏻", "🤸🏼", "🤸🏽", 
     "🤸🏾", "🤸🏿", "🤼", "🤼🏻", "🤼🏼", "🤼🏽", "🤼🏾", "🤼🏿", "🤽", "🤽🏻", "🤽🏼", "🤽🏽", "🤽🏾", "🤽🏿", "🤾", "🤾🏻", "🤾🏼", "🤾🏽", "🤾🏾", 
-    "🤾🏿", "🤹", "🤹🏻", "🤹🏼", "🤹🏽", "🤹🏾", "🤹🏿", "👫", "👬", "👭", "💏", "👩‍❤️‍💋‍👨", "👨‍❤️‍💋‍👨", "👩‍❤️‍💋‍👩", "💑", "👩‍❤️‍👨", "👨‍❤️‍👨", "👩‍❤️‍👩", 
-    "👪", "👨‍👩‍👦", "👨‍👩‍👧", "👨‍👩‍👧‍👦", "👨‍👩‍👦‍👦", "👨‍👩‍👧‍👧", "👨‍👨‍👦", "👨‍👨‍👧", "👨‍👨‍👧‍👦", "👨‍👨‍👦‍👦", "👨‍👨‍👧‍👧", "👩‍👩‍👦","👩‍👩‍👧", "👩‍👩‍👧‍👦", "👩‍👩‍👦‍👦", "👩‍👩‍👧‍👧", "🏻", "🏼", "🏽", "🏾", "🏿", "💪", "💪🏻", "💪🏼", "💪🏽", "💪🏾", "💪🏿", "🤳", "🤳🏻", "🤳🏼", "🤳🏽", 
+    "🤾🏿", "🤹", "🤹🏻", "🤹🏼", "🤹🏽", "🤹🏾", "🤹🏿", "👫", "👬", "👭", "💏", "👩‍❤️‍💋‍👨", "👨‍❤️‍💋‍👨", "👩‍❤️‍💋‍👩", "💑", "👩‍❤️‍👨", "👨‍❤️‍👨", "👩‍❤️‍👩","👪", "👨‍👩‍👦", "👨‍👩‍👧", "👨‍👩‍👧‍👦", "👨‍👩‍👦‍👦", "👨‍👩‍👧‍👧", "👨‍👨‍👦", "👨‍👨‍👧", "👨‍👨‍👧‍👦", "👨‍👨‍👦‍👦", "👨‍👨‍👧‍👧", "👩‍👩‍👦","👩‍👩‍👧", "👩‍👩‍👧‍👦", "👩‍👩‍👦‍👦", "👩‍👩‍👧‍👧", "🏻", "🏼", "🏽", "🏾", "🏿", "💪", "💪🏻", "💪🏼", "💪🏽", "💪🏾", "💪🏿", "🤳", "🤳🏻", "🤳🏼", "🤳🏽", 
     "🤳🏾", "🤳🏿", "👈", "👈🏻", "👈🏼", "👈🏽", "👈🏾", "👈🏿", "👉", "👉🏻", "👉🏼", "👉🏽", "👉🏾", "👉🏿", "☝", "☝🏻", "☝🏼", "☝🏽", "☝🏾", "☝🏿", "👆", "👆🏻", 
     "👆🏼", "👆🏽", "👆🏾", "👆🏿", "🖕", "🖕🏻", "🖕🏼", "🖕🏽", "🖕🏾", "🖕🏿", "👇", "👇🏻", "👇🏼", "👇🏽", "👇🏾", "👇🏿", "✌", "✌🏻", "✌🏼", "✌🏽", "✌🏾", "✌🏿", 
     "🤞", "🤞🏻", "🤞🏼", "🤞🏽", "🤞🏾", "🤞🏿", "🖖", "🖖🏻", "🖖🏼", "🖖🏽", "🖖🏾", "🖖🏿", "🤘", "🤘🏻", "🤘🏼", "🤘🏽", "🤘🏾", "🤘🏿", "🤙", "🤙🏻", "🤙🏼", 
@@ -246,14 +244,18 @@ const EMOJI = [
     "🇸🇽", "🇸🇾", "🇸🇿", "🇹🇦", "🇹🇨", "🇹🇩", "🇹🇫", "🇹🇬", "🇹🇭", "🇹🇯", "🇹🇰", "🇹🇱", "🇹🇲", "🇹🇳", "🇹🇴", "🇹🇷", "🇹🇹", "🇹🇻", "🇹🇼", "🇹🇿", 
     "🇺🇦", "🇺🇬", "🇺🇲", "🇺🇸", "🇺🇾", "🇺🇿", "🇻🇦", "🇻🇨", "🇻🇪", "🇻🇬", "🇻🇮", "🇻🇳", "🇻🇺", "🇼🇫", "🇼🇸", "🇽🇰", "🇾🇪", "🇾🇹", "🇿🇦", "🇿🇲", 
     "🇿🇼", "🪨", "🧠", "♾️", "♾", "🧮", "🛸", "🪛", "🧱", "🇻🇺", "🧑", "🦢", "🇺🇸", "🇩", "☭", "🧔", "🧼", "🤯", "🦠", 
-    "🇽", "🦾", "🤯", "爪", "🦵", "🦾", "⻔", "🧪", "🤪", "🦠", "🇱", "🦘", "🇵🇬", "🇺", "🇲🇽", "♝", "🧵", "🤲",
+    "🇽", "🦾", "🤯", "爪", "🦵", "🦾", "⻔", "🧪", "🤪", "🦠", "🇱", "🦘", "🇵🇬", "🇺", "🇲🇽", "♝", "🧵", "🤲", "🧢",
+    "🦸", "🧽", "🩺", "🥩", "🤨", "🧊", "🦸", "🪚", "🫰", "🥾", "🦴", "🥤", "🪆", "🦷", "🪁", "🟩", "🥬", "🥩",
+    "🥧", "🥬", "🧘", "🪙", "🦖", "🥣", "🤫", "🦺", "🧹", "✈️", "➡️", "⚛️", "☀️", "🕳️", "❄️", "☢️", "⚖️", "🌶️",
+    "🛋️", "🕴️", "🕶️", "✂️", "🅰️", "✍️", "👦", "👩‍", "⛰️", "🏎️", "🛡️", "👦", "👩‍", "👩", "🕵️", "🕹️", "⚠️", "🗣️",
+    "🎞️", "🗳️", "⚗️", "🌧️", "✉️", "🛠️", "🏗️", "🏚️", "🏔️", "🏛️", "⚰️", "❤️", "⚙️", "🏞️", "🦶", "⚔️", "🏋️", "🍽️",
+    "⛏️", "🏖️", "🪧", "🕊️", "🏕️", "🖼️", "🗺️", "🛍️", "☁️", "🎖️", "♻️", "🌪️", "🌬️", "🌫", "🌫", "🌫️",
     "\uFE00", "\uFE0E", "\uFE0F"];
 
+const NUMBERS = "0123456789";
 
 // const SERVER = "http://localhost:80"
 const SERVER = "https://server.speedydelete.com";
-
-const INVALID = `\0\t\n\v\f\r0123456789"\xa0`;
 
 let modeElt = document.getElementById("mode");
 let individualDiv = document.getElementById("individual-tab");
@@ -296,23 +298,37 @@ function switchTab() {
 window.addEventListener("load", switchTab);
 
 
-function validate(thing, emoji=false) {
-    thing = thing.toLowerCase().trim();
-    if (thing.length > 280) {
-        return false;
-    }
-    for (const char of thing) {
-        if (INVALID.includes(char)) {
-            return false;
-        } else if (EMOJI.includes(char)) {
-            if (emoji) {
-                thing = thing.replaceAll(char, "");
-            } else {
-                return false;
-            }
+function hasEmoji(text) {
+    for (const char of text) {
+        if (EMOJIS.includes(char) || char.includes("🌫")) {
+            return true;
         }
     }
-    return thing.replaceAll("\u200b", "").replaceAll("σ", "").replaceAll("♾️", "").replaceAll(" ️", "").replaceAll("δ", "").replaceAll("\u200d", "").replaceAll("-∞", "");
+    return false;
+}
+
+function validate(thing) {
+    thing = thing.toLowerCase().trim();
+    if (thing.length > 280) {
+        return [false, "280 chars max"];
+    } else if (thing.length == 0) {
+        return [false, "no blank inputs"];
+    }
+    for (const char of thing) {
+        let code = char.charCodeAt(0)
+        if (code < 32 || (code >= 128 && code < 144)) {
+            return [false, "control characters, nice try"];
+        } else if (EMOJIS.includes(char)) {
+            return [false, "emoji?? 🫠"];
+        } else if (NUMBERS.includes(char)) {
+            alert("i'm bad at numbers");
+            return [false, "i'm bad at numbers"];
+        } else if (char == "\"") {
+            alert("pls no quotes lol");
+            return [false, "pls no quotes lol"];
+        }
+    }
+    return [thing.replaceAll("\xa0", " "), null];
 }
 
 
@@ -326,7 +342,7 @@ async function sendReq(path, data) {
         let text = await resp.text();
         return text.split('\n');
     } else if (resp.status == 400) {
-        alert("Invalid input");
+        alert("invalid input");
     } else if (resp.status == 418) {
         alert("global rate limit is enabled due to too much data, try again in a few minutes");
     }
@@ -344,34 +360,44 @@ async function addCombination() {
         data = data.split("🤜");
     } else if (mode == "trophy") {
         data = trophyElt.value;
-        data = data.split('\n');
+        data = data.split("\n");
         let trophies = [];
         let withCount = 0;
         for (let trophy of data) {
-            let prev_trophy = trophy;
-            if (trophy.includes("🏆")) {
+            if (trophy == "" || trophy.startsWith("🏆")) {
                 continue;
             }
-            if (trophy.length < 1) {
-                continue;
+            while (trophy.includes("  ")) {
+                trophy = trophy.replaceAll("  ", " ");
             }
-            trophy = validate(trophy, emoji=true)
-            if (!trophy) {
-                alert("invalid input: \"" + prev_trophy + "\"");
-            }
-            trophy = trophy.split(" with ");
-            if (trophy.length > 2) {
+            trophy = trophy.split(" ");
+            if (trophy.filter(x => x == "with").length > 1) {
                 withCount += 1;
                 continue;
-            } else if (trophy.length == 1) {
-                continue;
             }
-            trophy = [validate(trophy[1]), validate(trophy[0])];
-            if (trophy.some((x) => !x)) {
-                alert('invalid input');
+            const withIndex = trophy.indexOf("with");
+            let beats = trophy.slice(0, withIndex);
+            let beaten = trophy.slice(withIndex + 1);
+            if (EMOJIS.includes(beats.at(-1))) {
+                beats = beats.slice(0, -1);
+            }
+            if (EMOJIS.includes(beaten.at(-1))) {
+                beaten = beaten.slice(0, -1);
+            }
+            beats = beats.join(" ");
+            beaten = beaten.join(" ");
+            let beatenError, beatsError;
+            beats, beatsError = validate(beats);
+            beaten, beatenError = validate(beaten);
+            if (!beats || !beaten) {
+                if (beatenError != null) {
+                    alert(beatsError);
+                } else if (beatenError != null) {
+                    alert(beatenError);
+                }
                 return;
             }
-            trophies.push(trophy.join("\n"));
+            trophies.push(beaten + "\n" + beats);
         }
         if (withCount > 0) {
             alert(`sorry, ${withCount} items with \" with \" in them were skipped`);
@@ -383,10 +409,13 @@ async function addCombination() {
     }
     if ("individualchain".includes(mode)) {
         let validated = [];
-        data.forEach((x) => validated.push(validate(x)));
-        if (validated.some((x) => !x)) {
-            alert('invalid input');
-            return;
+        for (const thing in data) {
+            const valid = validate(thing);
+            if (!valid[0]) {
+                alert(valid[1]);
+            } else {
+                validated.push(valid[0]);
+            }
         }
         await sendReq("/add/", {
             method: "post",
@@ -397,11 +426,12 @@ async function addCombination() {
 }
 
 async function getBeats() {
-    let data = validate(queryElt.value);
-    if (!data) {
-        alert('invalid input');
+    let valid = validate(queryElt.value);
+    if (!valid[0]) {
+        alert(valid[1]);
         return;
     }
+    let data = valid[0];
     text = await sendReq("/get/" + encodeURIComponent(data), {method: "get"});
     if (text.length == 1 && text[0] == "") {
         text = [];
@@ -415,6 +445,21 @@ async function getBeats() {
         let elt = document.createElement("li");
         elt.innerText = thing;
         resultsElt.appendChild(elt);
+    }
+}
+
+function debug(command) {
+    if (command = "test_emoji") {
+        let text = trophyElt.value;
+        for (const char of text) {
+            if (EMOJIS.includes(char)) {
+                text = text.replaceAll(char, "");
+            }
+        }
+        sendReq("/test/", {
+            method: "post",
+            body: text,
+        });
     }
 }
 
