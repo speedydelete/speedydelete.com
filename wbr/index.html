@@ -253,8 +253,6 @@ const EMOJIS = ["😀", "😁", "😂", "🤣", "😃", "😄", "😅", "😆", 
     "🏳️", "🙋",
     "\uFE00", "\uFE0E", "\uFE0F"];
 
-const NUMBERS = "0123456789";
-
 // const SERVER = "http://localhost:80"
 const SERVER = "https://server.speedydelete.com";
 
@@ -321,8 +319,7 @@ function validate(thing) {
             return [false, "control characters, nice try"];
         } else if (EMOJIS.includes(char)) {
             return [false, "emoji?? 🫠"];
-        } else if (NUMBERS.includes(char)) {
-            alert("i'm bad at numbers");
+        } else if ("0123456789".includes(char)) {
             return [false, "i'm bad at numbers"];
         } else if (char == "\"") {
             alert("pls no quotes lol");
