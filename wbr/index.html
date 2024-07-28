@@ -289,7 +289,7 @@ async function addCombination() {
             while (trophy.includes("  ")) {
                 trophy = trophy.replaceAll("  ", " ");
             }
-            if ("\u200d" in trophy) {
+            if (trophy.includes("\u200d")) {
                 alert("please remove zero width joiners (U+200D) in \"" + trophy + "\"")
             }
             trophy = trophy.split(" ");
